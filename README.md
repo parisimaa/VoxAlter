@@ -1,4 +1,16 @@
 # VoxAlter
+## Checklist
+
+- [ ] Vibrato effect
+- [ ] Flanger effect
+- [ ] Echo effect
+- [ ] Robotization
+- [ ] Whisperization
+- [ ] Pitch shifting
+- [ ] Time stretching 
+- [ ] Mutation between two sounds
+
+## Reference: 
 Real-Time Vocal Modulation Project <br>
 DAFX – Digital Audio Effects <br>
 Udo Z ̈olzer (editor) <br>
