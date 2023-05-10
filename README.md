@@ -6,7 +6,7 @@
 - [ ] Echo effect
 - [ ] Robotization
 - [ ] Whisperization
-- [ ] Pitch shifting
+- [x] Pitch shifting
 - [ ] Time stretching 
 - [ ] Mutation between two sounds
 
