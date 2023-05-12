@@ -40,8 +40,8 @@ def frame(x, frame_length, hop_length):
     return xw[tuple(slices)]
 
 def stft_fn(y):
-    n_fft = 2048
-    win_length = 2048
+    n_fft = 1024
+    win_length = 512
     hop_length = win_length // 4
     center = True
     pad_mode = "constant"

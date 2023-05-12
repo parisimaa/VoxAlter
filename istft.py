@@ -2,30 +2,6 @@ from scipy.signal.windows import hann
 import numpy as np
 from scipy.linalg import norm
 
-def normalize(S):
-    norm = np.inf
-    axis = 0
-    threshold = None
-    fill = None
-
-    # Avoid div-by-zero
-    threshold = tiny(S)
-
-    # All norms only depend on magnitude, let's do that first
-    mag = np.abs(S).astype(float)
-
-    # For max/min norms, filling with 1 works
-    fill_norm = 1
-    length = np.max(mag, axis=axis, keepdims=True)
-
-    # indices where norm is below the threshold
-    small_idx = length < threshold
-
-    Snorm = np.empty_like(S)
-    length[small_idx] = 1.0
-    Snorm[:] = S / length
-
-    return Snorm
 
 def pad_center(data, size, axis = -1):
     n = data.shape[axis]
@@ -51,15 +27,13 @@ def overlap_add(y, ytmp, hop_length):
     return y
 
 
-
 def window_sumsquare(window, n_frames, hop_length, win_length, n_fft, dtype):
 
     n = n_fft + hop_length * (n_frames - 1)
     x = np.zeros(n, dtype=dtype)
 
     # Compute the squared window at the desired length
-    win_sq = hann( win_length)
-    # win_sq = normalize(win_sq) 
+    win_sq = hann(win_length)
     win_sq = pad_center(win_sq ** 2, size=n_fft)
 
     # Fill the envelope
@@ -103,10 +77,10 @@ def tiny(x):
 
 
 
-def istft(stft_matrix):
+def istft(stft_matrix, length):
     
-    n_fft = 2048
-    win_length = 2048
+    n_fft = 1024
+    win_length = 512
     hop_length = win_length // 4
     center = True
     pad_mode = "constant"
@@ -129,7 +103,8 @@ def istft(stft_matrix):
     ifft_window = ifft_window.reshape(shape)
 
     # For efficiency, trim STFT frames according to signal length if available
-    n_frames = stft_matrix.shape[-1]
+    padded_length = length + 2 * (n_fft // 2)
+    n_frames = min(stft_matrix.shape[-1], int(np.ceil(padded_length / hop_length)))
 
     dtype = np.complex128
 
